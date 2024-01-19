@@ -15,7 +15,7 @@ lower_bound = Q1 - 1.5 * IQR
 upper_bound = Q3 + 1.5 * IQR
 data = data[(data['Price'] >= lower_bound) & (data['Price'] <= upper_bound)]
 
-data['Age'] = 2024 - data['Year_Built']  # Assuming current year is 2024
+data['Age'] = 2024 - data['Year_Built'] 
 data = pd.get_dummies(data, columns=['Province', 'Type'])
 
 average_price_by_age_bedrooms = data.groupby(['Age', 'Bedrooms'])['Price'].mean().reset_index()
@@ -34,17 +34,17 @@ for bedroom in bedroom_categories:
     annual_increase = bedroom_data['Price_Increase_Rate'].mean()
 
     projected_prices = []
-    if not np.isnan(annual_increase):  # Check if annual_increase is not NaN
-        current_avg_price = bedroom_data['Price'].iloc[-1]  # Latest average price for this bedroom category
+    if not np.isnan(annual_increase):
+        current_avg_price = bedroom_data['Price'].iloc[-1]
         for year in future_years:
             future_price = current_avg_price * ((1 + annual_increase) ** (year - current_year))
             projected_prices.append(future_price)
         
         plt.plot(future_years, projected_prices, marker='o', label=f"{bedroom} Bedrooms")
 
-plt.title("Projected Real Estate Prices in Toronto by Number of Bedrooms")
+plt.title("Projected Real Estate Prices in GTA")
 plt.xlabel("Year")
-plt.ylabel("Average Price")
+plt.ylabel("Price")
 plt.legend()
 plt.grid(True)
 plt.show()
